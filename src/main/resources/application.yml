@@ -1,9 +1,19 @@
-# redis:
-#     lettuce:
-#       pool:
-#         max-active: 10
-#         max-idle: 10
-#         min-idle: 2
-#     port: 12756
-#     host: redis-12756.c340.ap-northeast-2-1.ec2.redns.redis-cloud.com
-#     password: vg7WprKyfm0iFKyLHkMCQ3aPgA8PS494
+spring:
+  springdoc:
+    swagger-ui:
+      groups-order: DESC
+      tags-sorter: alpha
+      operations-sorter: method
+      disable-swagger-default-url: true
+      display-request-duration: true
+      defaultModelsExpandDepth: 2
+      defaultModelExpandDepth: 2
+    api-docs:
+      path: /api-docs
+    show-actuator: true
+    default-consumes-media-type: application/json
+    default-produces-media-type: application/json
+    writer-with-default-pretty-printer: true
+    model-and-view-allowed: true
+    paths-to-match:
+      - /api/v1/**
