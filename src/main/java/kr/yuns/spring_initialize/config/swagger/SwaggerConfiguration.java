@@ -4,6 +4,8 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,8 +24,12 @@ public class SwaggerConfiguration {
                         .scheme(BEARER_TOKEN_PREFIX)
                         .bearerFormat(securityJwtName));
 
+        Server server = new Server();
+        server.setUrl("https://verbose-spork-65594wvrq7vhrg94-8080.app.github.dev");
+
         return new OpenAPI()
                 .addSecurityItem(securityRequirement)
-                .components(components);
+                .components(components)
+                .addServersItem(server);
     }
 }
