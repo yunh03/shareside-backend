@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,40 +29,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             "/css/**",
             "/images/**",
             "/js/**",
-            "/favicon.ico"
+            "/favicon.ico",
+            "/api/v1/test/**",
+            "/error"
     );
 
     @Override
-    protected boolean shouldNotFilter(@SuppressWarnings("null") HttpServletRequest request) {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         return permitUrls.stream()
                 .anyMatch(url -> new AntPathMatcher().match(url, request.getServletPath()));
     }
 
     @Override
-    protected void doFilterInternal(@SuppressWarnings("null") HttpServletRequest request, 
-                                    @SuppressWarnings("null") HttpServletResponse response,
-                                    @SuppressWarnings("null") FilterChain filterChain)
-            throws ServletException, IOException {
-        throw new UnsupportedOperationException("Unimplemented method 'doFilterInternal'");
+    protected void doFilterInternal(HttpServletRequest servletRequest,
+                                    HttpServletResponse servletResponse,
+                                    FilterChain filterChain) throws ServletException, IOException {
+        // String token = jwtTokenProvider.resolveToken(servletRequest);
+        log.info("request url: {}", servletRequest.getRequestURL());
+        // log.info("request token: {}", token);
+
+        // if (token != null && jwtTokenProvider.validateToken(token)) {
+        //     try {
+        //         Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        //         SecurityContextHolder.getContext().setAuthentication(authentication);
+        //     } catch (RuntimeException e) {
+        //         servletRequest.setAttribute("error", Result.FAIL);
+        //     }
+        // }
+
+        filterChain.doFilter(servletRequest, servletResponse);
     }
-
-    // @Override
-    // protected void doFilterInternal(HttpServletRequest servletRequest,
-    //                                 HttpServletResponse servletResponse,
-    //                                 FilterChain filterChain) throws ServletException, IOException {
-    //     String token = jwtTokenProvider.resolveToken(servletRequest);
-    //     log.info("request url: {}", servletRequest.getRequestURL());
-    //     log.info("request token: {}", token);
-
-    //     if (token != null && jwtTokenProvider.validateToken(token)) {
-    //         try {
-    //             Authentication authentication = jwtTokenProvider.getAuthentication(token);
-    //             SecurityContextHolder.getContext().setAuthentication(authentication);
-    //         } catch (RuntimeException e) {
-    //             servletRequest.setAttribute("error", Result.FAIL);
-    //         }
-    //     }
-
-    //     filterChain.doFilter(servletRequest, servletResponse);
-    // }
 }

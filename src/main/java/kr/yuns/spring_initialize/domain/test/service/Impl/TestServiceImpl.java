@@ -8,8 +8,10 @@ import kr.yuns.spring_initialize.domain.test.data.dto.TestRequestDto;
 import kr.yuns.spring_initialize.domain.test.data.entity.Test;
 import kr.yuns.spring_initialize.domain.test.data.repository.TestRepository;
 import kr.yuns.spring_initialize.domain.test.service.TestService;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class TestServiceImpl implements TestService {
     private TestRepository testRepository;
 

@@ -26,7 +26,7 @@ public class SecurityConfiguration {
 
     public static final String[] PATTERNS = {
         "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/css/**",
-        "/images/**", "/js/**", "/favicon.ico", "/api/v1/auth/**"
+        "/images/**", "/js/**", "/favicon.ico", "/api/v1/auth/**", "/api/v1/test/**", "/error"
     };
 
     @Bean
@@ -61,7 +61,7 @@ public class SecurityConfiguration {
                                 .accessDeniedHandler(jwtAccessDeniedHandler) // 403
                 )
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/v1/**").permitAll()
+                        .requestMatchers("/api/v1/test/**").permitAll()
                         .requestMatchers(PATTERNS).permitAll()
                         .anyRequest().authenticated()
                 )

@@ -23,7 +23,7 @@ public class TestController {
         return ResponseEntity.status(HttpStatus.OK).body("test");
     }
 
-    @PostMapping("/")
+    @PostMapping("/ent")
     public ResponseEntity<?> saveTestEntity(@RequestParam String title, String content) {
         return testService.saveTestEntity(
             TestRequestDto.builder()
