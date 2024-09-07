@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.yuns.shareside_backend.common.CustomResponseEntity;
 import kr.yuns.shareside_backend.common.Result;
 import kr.yuns.shareside_backend.config.security.JwtTokenProvider;
+import kr.yuns.shareside_backend.domain.auth.data.dto.request.SignInRequestDto;
 import kr.yuns.shareside_backend.domain.auth.data.dto.request.SignUpRequestDto;
 import kr.yuns.shareside_backend.domain.auth.data.dto.response.AuthResponseDto;
 import kr.yuns.shareside_backend.domain.auth.data.entity.User;
@@ -53,6 +54,29 @@ public class AuthServiceImpl implements AuthService {
         return ResponseEntity.status(HttpStatus.OK).body(AuthResponseDto.builder()
                         .accessToken(tokenProvider.createAccessToken(signUpRequestDto.getEmail(), user.getRoles()))
                         .refreshToken(tokenProvider.createRefreshToken(signUpRequestDto.getEmail()))
+                        .status(CustomResponseEntity.success())
+                .build());
+    }
+
+    @Override
+    public ResponseEntity<AuthResponseDto> signIn(SignInRequestDto signInRequestDto) {
+        if(!userRepository.existsByEmail(signInRequestDto.getEmail())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(AuthResponseDto.builder()
+                            .status(CustomResponseEntity.fail(Result.NOT_FOUND_USER))
+                    .build());
+        }
+
+        User user = userRepository.getByEmail(signInRequestDto.getEmail());
+
+        if(!passwordEncoder.matches(signInRequestDto.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(AuthResponseDto.builder()
+                            .status(CustomResponseEntity.fail(Result.PASSWORD_NOT_MATCH))
+                    .build());
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(AuthResponseDto.builder()
+                        .accessToken(tokenProvider.createAccessToken(user.getEmail(), user.getRoles()))
+                        .refreshToken(tokenProvider.createRefreshToken(user.getEmail()))
                         .status(CustomResponseEntity.success())
                 .build());
     }

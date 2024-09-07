@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.yuns.shareside_backend.domain.auth.data.dto.request.SignInRequestDto;
 import kr.yuns.shareside_backend.domain.auth.data.dto.request.SignUpRequestDto;
 import kr.yuns.shareside_backend.domain.auth.data.dto.response.AuthResponseDto;
 
@@ -21,5 +22,10 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<AuthResponseDto> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
         return authService.signUp(signUpRequestDto);
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<AuthResponseDto> signIn(@RequestBody SignInRequestDto signInRequestDto) {
+        return authService.signIn(signInRequestDto);
     }
 }
