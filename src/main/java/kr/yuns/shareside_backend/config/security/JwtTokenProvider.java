@@ -6,6 +6,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
+import kr.yuns.shareside_backend.domain.auth.data.dao.UserDao;
+import kr.yuns.shareside_backend.domain.auth.data.entity.User;
+import kr.yuns.shareside_backend.domain.auth.data.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +30,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
     private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -79,6 +83,13 @@ public class JwtTokenProvider {
         String info = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
         log.info("JwtTokenProvider / getUserEmail(): 토큰 기반 회원 구별 정보 추출 완료, info : {}", info);
         return info;
+    }
+
+    public User getUserEntity(String token) {
+        log.info("JwtTokenProvider / getUserId(): 토큰 기반 회원 고유 ID 정보 추출");
+        @SuppressWarnings("deprecation")
+        String info = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        return userRepository.getByEmail(info);
     }
 
     public String refreshToken(String refreshToken, String email) {
