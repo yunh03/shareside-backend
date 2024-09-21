@@ -29,7 +29,7 @@ public class SwaggerConfiguration {
 
         return new OpenAPI()
                 .addSecurityItem(securityRequirement)
-                .components(components)
-                .addServersItem(server);
+                .addServersItem(server)
+                .components(components);
     }
 }

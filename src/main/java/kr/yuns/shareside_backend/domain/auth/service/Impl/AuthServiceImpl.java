@@ -80,4 +80,9 @@ public class AuthServiceImpl implements AuthService {
                         .status(CustomResponseEntity.success())
                 .build());
     }
+
+    @Override
+    public boolean checkNickNameExist(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
 }

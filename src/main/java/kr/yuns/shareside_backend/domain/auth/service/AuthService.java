@@ -9,4 +9,5 @@ import kr.yuns.shareside_backend.domain.auth.data.dto.response.AuthResponseDto;
 public interface AuthService {
     ResponseEntity<AuthResponseDto> signUp(SignUpRequestDto signUpRequestDto);
     ResponseEntity<AuthResponseDto> signIn(SignInRequestDto signInRequestDto);
+    boolean checkNickNameExist(String nickname);
 }

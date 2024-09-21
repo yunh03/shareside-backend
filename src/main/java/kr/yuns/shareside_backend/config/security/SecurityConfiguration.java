@@ -26,13 +26,13 @@ public class SecurityConfiguration {
 
     public static final String[] PATTERNS = {
         "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/css/**",
-        "/images/**", "/js/**", "/favicon.ico", "/api/v1/auth/**", "/api/v1/test/**", "/error"
+        "/images/**", "/js/**", "/favicon.ico", "/api/v1/auth/**"
     };
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("*");
+        config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.addExposedHeader("Authorization");
@@ -61,8 +61,9 @@ public class SecurityConfiguration {
                                 .accessDeniedHandler(jwtAccessDeniedHandler) // 403
                 )
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/v1/test/**").permitAll()
                         .requestMatchers(PATTERNS).permitAll()
+                        .requestMatchers("/api/v1/project/upload").hasRole("USER")
+                        .requestMatchers("/api/v1/comment").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
