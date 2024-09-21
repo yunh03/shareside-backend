@@ -27,6 +27,8 @@ public class ProjectServiceImpl implements ProjectService {
         try {
             LocalDateTime CURRENT_TIME = LocalDateTime.now();
 
+            log.info(sideProjectUploadRequestDto.toString());
+
             log.info("save side project entity");
             SideProjects savedSideProjects = projectDao.saveSideProjectEntity(
                 SideProjects.builder()
@@ -45,12 +47,14 @@ public class ProjectServiceImpl implements ProjectService {
             );
 
             log.info("save tech stack entity");
-            for(TechStack techStack : sideProjectUploadRequestDto.getTechStacks()) {
-                projectDao.saveTechStacksEntity(
-                    TechStacks.builder()
-                        .techStack(techStack)
-                        .sideProjects(savedSideProjects)
-                .build());
+            if(!sideProjectUploadRequestDto.getTechStacks().isEmpty()) {
+                for(TechStack techStack : sideProjectUploadRequestDto.getTechStacks()) {
+                    projectDao.saveTechStacksEntity(
+                        TechStacks.builder()
+                            .techStack(techStack)
+                            .sideProjects(savedSideProjects)
+                    .build());
+                }
             }
         } catch (UserNotFoundException e) {
             log.error(e.getMessage(), e);

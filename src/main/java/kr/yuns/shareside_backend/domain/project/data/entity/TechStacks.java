@@ -23,7 +23,7 @@ import lombok.ToString;
 @ToString
 @Builder
 @Entity
-@Table(name = "side_projects")
+@Table(name = "tech_stacks")
 public class TechStacks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
