@@ -9,15 +9,15 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.HttpServletRequest;
 import kr.yuns.shareside_backend.config.security.JwtTokenProvider;
 import kr.yuns.shareside_backend.domain.auth.data.entity.User;
-import kr.yuns.shareside_backend.domain.project.data.dto.request.SideProjectUploadRequestDto;
-import kr.yuns.shareside_backend.domain.project.service.ProjectService;
+import kr.yuns.shareside_backend.domain.project.data.dto.request.UploadCommentsRequestDto;
+import kr.yuns.shareside_backend.domain.project.service.ProjectCommentService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/project")
+@RequestMapping("/api/v1/comment")
 @RequiredArgsConstructor
-public class ProjectController {
-    private final ProjectService projectService;
+public class ProjectCommentController {
+    private final ProjectCommentService projectCommentService;
     private final JwtTokenProvider jwtTokenProvider;
 
     public User GET_USER_ENTITY_BY_TOKEN(HttpServletRequest request) {
@@ -25,8 +25,8 @@ public class ProjectController {
         return jwtTokenProvider.getUserEntity(token);
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<?> uploadProject(HttpServletRequest request, @RequestBody SideProjectUploadRequestDto sideProjectUploadRequestDto) {
-        return projectService.uploadProject(GET_USER_ENTITY_BY_TOKEN(request), sideProjectUploadRequestDto);
+    @PostMapping("/")
+    public ResponseEntity<?> uploadComments(HttpServletRequest request, @RequestBody UploadCommentsRequestDto uploadCommentsRequestDto) {
+        return projectCommentService.saveComments(GET_USER_ENTITY_BY_TOKEN(request), uploadCommentsRequestDto);
     }
 }

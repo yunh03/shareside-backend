@@ -18,11 +18,11 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class ProjectDaoImpl implements ProjectDao {
-    private ProjectsCommentReplyRepository projectsCommentReplyRepository;
-    private ProjectsCommentRepository projectsCommentRepository;
-    private ProjectsImagesRepository projectsImagesRepository;
-    private SideProjectsRepository sideProjectsRepository;
-    private TechStacksRepository techStacksRepository;
+    private final ProjectsCommentReplyRepository projectsCommentReplyRepository;
+    private final ProjectsCommentRepository projectsCommentRepository;
+    private final ProjectsImagesRepository projectsImagesRepository;
+    private final SideProjectsRepository sideProjectsRepository;
+    private final TechStacksRepository techStacksRepository;
 
     @Override
     public SideProjects saveSideProjectEntity(SideProjects sideProjects) {

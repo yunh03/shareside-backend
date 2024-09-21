@@ -41,7 +41,7 @@ public class ProjectsComment {
     private User user;
 
     @Column(nullable = false)
-    private boolean isServiceUser = false;
+    private boolean isServiceUser;
 
     @Column(nullable = false)
     private boolean useable;
