@@ -82,6 +82,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public boolean checkEmailExist(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
     public boolean checkNickNameExist(String nickname) {
         return userRepository.existsByNickname(nickname);
     }

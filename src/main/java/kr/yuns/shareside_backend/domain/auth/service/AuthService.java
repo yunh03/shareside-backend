@@ -10,4 +10,5 @@ public interface AuthService {
     ResponseEntity<AuthResponseDto> signUp(SignUpRequestDto signUpRequestDto);
     ResponseEntity<AuthResponseDto> signIn(SignInRequestDto signInRequestDto);
     boolean checkNickNameExist(String nickname);
+    boolean checkEmailExist(String email);
 }

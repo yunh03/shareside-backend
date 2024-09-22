@@ -34,4 +34,9 @@ public class AuthController {
     public boolean checkNickNameExist(@RequestParam String nickname) {
         return authService.checkNickNameExist(nickname);
     }
+
+    @PostMapping("/checkEmailExist")
+    public boolean checkEmailExist(@RequestParam String email) {
+        return authService.checkEmailExist(email);
+    }
 }
